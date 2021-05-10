@@ -1,6 +1,5 @@
 <script>
 import { reactive, toRefs, computed } from 'vue';
-// @ is an alias to /src
 
 export default {
   name: 'Home',
@@ -8,25 +7,27 @@ export default {
   setup() {
     const state = reactive({
       pokemons: [],
-      urlIdLookop: {},
+      urlIdLookup: {},
       text: '',
-      filteredPokemon: computed(() => updatePokemon())
+      filteredPokemon: computed(() => updatePokemon()),
     });
 
     function updatePokemon() {
       if (!state.text) return [];
-      return state.pokemons.filter(pokemon => pokemon.name.includes(state.text))
+      return state.pokemons.filter((pokemon) =>
+        pokemon.name.includes(state.text)
+      );
     }
 
     fetch('https://pokeapi.co/api/v2/pokemon?offset=0')
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
         state.pokemons = data.results;
-        state.urlIdLookop = data.results.reduce(
+        state.urlIdLookup = data.results.reduce(
           (acc, cur, idx) => (acc = { ...acc, [cur.name]: idx + 1 }),
           {}
         );
+        // console.log(state);
       });
 
     return {
@@ -52,7 +53,9 @@ export default {
       v-for="(pokemon, idx) in filteredPokemon"
       :key="idx"
     >
-      {{ pokemon.name }}
+      <router-link :to="`/about/${urlIdLookup[pokemon.name]}`">
+        {{ pokemon.name }}
+      </router-link>
     </div>
   </div>
 </template>
