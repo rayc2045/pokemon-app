@@ -21,10 +21,10 @@ export default {
 </script>
 
 <template>
-  <div class="about">
+  <div class="about" @dragstart.prevent @selectstart.prevent>
     <div
       v-if="pokemon"
-      class="w-3/12 m-auto shadow-2xl rounded-md flex justify-center flex-col items-center"
+      class="w-3/12 m-auto p-4 bg-purple-100 shadow-2xl rounded-md flex justify-center flex-col items-center"
     >
       <h3 class="text-2xl text-green-900 uppercase">{{ pokemon.name }}</h3>
       <div class="flex justify-center">
