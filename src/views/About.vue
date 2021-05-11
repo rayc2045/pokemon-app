@@ -5,9 +5,7 @@ import { reactive, toRefs } from 'vue';
 export default {
   setup() {
     const route = useRoute();
-    const state = reactive({
-      pokemon: null,
-    });
+    const state = reactive({ pokemon: null });
 
     fetch(`https://pokeapi.co/api/v2/pokemon/${route.params.slug}/`)
       .then((res) => res.json())

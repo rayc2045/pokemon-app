@@ -3,7 +3,6 @@ import { reactive, toRefs, computed } from 'vue';
 
 export default {
   name: 'Home',
-  components: {},
   setup() {
     const state = reactive({
       pokemons: [],
