@@ -1,6 +1,5 @@
 <script>
 import { reactive, toRefs, computed } from 'vue';
-
 export default {
   name: 'Home',
   setup() {
@@ -8,49 +7,42 @@ export default {
       pokemons: [],
       urlIdLookup: {},
       text: '',
-      filteredPokemon: computed(() => updatePokemon()),
+      filteredPokemon: computed(() => updatePokemon())
     });
+
+    fetch('https://pokeapi.co/api/v2/pokemon?offset=0')
+      .then(res => res.json())
+      .then(data => {
+        // console.log(data.results[0]);
+        state.pokemons = data.results;
+        state.urlIdLookup = data.results.reduce((acc, cur, idx) =>
+          acc = {...acc, [cur.name]:idx + 1}
+        , {})
+      })
 
     function updatePokemon() {
       if (!state.text) return [];
-      return state.pokemons.filter((pokemon) =>
-        pokemon.name.includes(state.text)
-      );
+      return state.pokemons.filter(pokemon => pokemon.name.includes(state.text))
     }
 
-    fetch('https://pokeapi.co/api/v2/pokemon?offset=0')
-      .then((res) => res.json())
-      .then((data) => {
-        state.pokemons = data.results;
-        state.urlIdLookup = data.results.reduce(
-          (acc, cur, idx) => (acc = { ...acc, [cur.name]: idx + 1 }),
-          {}
-        );
-        // console.log(state);
-      });
-
     return {
-      ...toRefs(state),
-    };
-  },
-};
+      ...toRefs(state)
+    }
+  }
+}
 </script>
 
 <template>
   <div class="w-full flex justify-center">
     <input
-      class="mt-10 p-2 border-blue-500 border-2"
-      type="text"
-      placeholder="Enter Pokemon here..."
-      v-model="text"
-    />
+      type="text" placeholder="Enter Pokemon here" autofocus
+      class="mt-4 p-2 border-blue-500 border-2"
+      v-model="text"/>
   </div>
-
-  <div class="mt-10 p-4 flex flex-wrap justify-center">
+  <div class="mt-4 p-4 flex flex-wrap justify-center">
     <div
       class="ml-4 text-2x text-blue-500"
-      v-for="(pokemon, idx) in filteredPokemon"
-      :key="idx"
+      v-for="(pokemon, idx) in filteredPokemon" :key="idx"
     >
       <router-link :to="`/about/${urlIdLookup[pokemon.name]}`">
         {{ pokemon.name }}
