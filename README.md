@@ -1,5 +1,8 @@
 # pokemon-app
 
+## Poké API
+[https://pokeapi.co/](https://pokeapi.co/)
+
 ## Project setup
 ```
 pnpm install
