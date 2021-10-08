@@ -1,5 +1,6 @@
 # pokemon-app
 
+Demo: [https://rayc2045.github.io/pokemon-app/](https://rayc2045.github.io/pokemon-app/)
 Poké API: [https://pokeapi.co/](https://pokeapi.co/)
 
 ## Project setup
